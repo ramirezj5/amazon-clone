@@ -35,6 +35,11 @@ switch(action.type) {
             ...state,
             user: action.user
         }
+    case 'EMPTY_BASKET':   
+        return {
+            ...state,
+            basket: []
+        }
     default:
         return state;
 }
