@@ -7,19 +7,19 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require("express");
 const cors = require("cors");
 
 // eslint-disable-next-line max-len
-const stripe = require("stripe")("sk_test_51Od3BtA65hF8ZlgLHb8FSLjhXLOnfGCPXJ0jyUPxYnBUcPFiNKL9RBGGaiAHWjgQsLvE8ORpfUUlyIaXwFQ6LeUu00HBwcqw1n");
+const stripe = require("stripe")(process.env.REACT_APP_SECRET_STRIPE_KEY);
 
 // API
 // App Config
 const app = express();
 
 // Middlewares
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 // API Routes
@@ -35,7 +35,7 @@ app.post("/payments/create", async (request, response) => {
       currency: "usd",
     });
 
-    response.json({clientSecret: paymentIntent.client_secret});
+    response.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.error("Error creating payment intent:", error);
     response.status(500).send("Internal Server Error");
